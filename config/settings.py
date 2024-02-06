@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # local apps
     'pages',
     'products',
+    'authentication',
 ]
 
 MIDDLEWARE = [

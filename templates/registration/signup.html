@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,15 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="{% static 'registration/fonts/icomoon/style.css' %}">
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{% static 'registration/css/owl.carousel.min.css' %}">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'registration/css/bootstrap.min.css' %}">
     
     <!-- Style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'registration/css/style.css' %}">
 
     <title>Register</title>
   </head>
@@ -22,7 +23,7 @@
   
 
   <div class="d-md-flex half">
-    <div class="bg" style="background-image: url('images/bg_1.jpg');"></div>
+    <div class="bg" style="background-image: url('{% static 'registration/images/bg_1.jpg' %}');"></div>
     <div class="contents">
 
       <div class="container">
@@ -30,37 +31,29 @@
           <div class="col-md-12">
             <div class="form-block mx-auto">
               <div class="text-center mb-5">
-                <h3 class="text-uppercase">Register to <strong>Colorlib</strong></h3>
+                <h3 class="text-uppercase">Register to <strong>Malefashion</strong></h3>
               </div>
-              <form action="#" method="post">
+              <form action="#" method="POST">
+                {% csrf_token %}
                 <div class="form-group first">
                   <label for="username">Username</label>
-                  <input type="text" class="form-control" placeholder="your-email@gmail.com" id="username">
+                  <input name="username" type="text" class="form-control" placeholder="your username" id="username">
                 </div>
                 <div class="form-group last mb-3">
                   <label for="password">Password</label>
-                  <input type="password" class="form-control" placeholder="Your Password" id="password">
+                  <input name="password" type="password" class="form-control" placeholder="Your Password" id="password">
+                </div>
+                <div class="form-group last mb-3">
+                  <label for="password">Password Confirmation</label>
+                  <input name="password_confirm" type="password" class="form-control" placeholder="Confirm password" id="password">
                 </div>
                 
                 <div class="d-sm-flex mb-5 align-items-center">
-                  <label class="control control--checkbox mb-3 mb-sm-0"><span class="caption">Remember me</span>
-                    <input type="checkbox" checked="checked"/>
-                    <div class="control__indicator"></div>
-                  </label>
-                  <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+                  <p>Go to <span><a href="{% url 'authentication:signin' %}">Login</a></span> if you have an account !</p>
                 </div>
 
-                <input type="submit" value="Log In" class="btn btn-block py-2 btn-primary">
-
-                <span class="text-center my-3 d-block">or</span>
+                <input type="submit" value="Register" class="btn btn-block py-2 btn-primary">
                 
-                
-                <div class="">
-                <a href="#" class="btn btn-block py-2 btn-facebook">
-                  <span class="icon-facebook mr-3"></span> Login with facebook
-                </a>
-                <a href="#" class="btn btn-block py-2 btn-google"><span class="icon-google mr-3"></span> Login with Google</a>
-                </div>
               </form>
             </div>
           </div>
@@ -68,14 +61,14 @@
       </div>
     </div>
 
-    
+  
   </div>
     
     
 
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'registration/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'registration/js/popper.min.js' %}"></script>
+    <script src="{% static 'registration/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'registration/js/main.js' %}"></script>
   </body>
 </html>

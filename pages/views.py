@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, ListView
 # models
 from pages.models import BannerModel
 from products.models import ProductModel
+from blogs.models import PostModel
 
 # Create your views here.
 class HomePageView(ListView):
@@ -23,8 +24,10 @@ class AboutPageView(TemplateView):
     template_name = "about.html"
 
 
-class BlogPageView(TemplateView):
+class BlogPageView(ListView):
     template_name = "blog.html"
+    model = PostModel
+    context_object_name = "posts"
 
 
 class ContactsPageView(TemplateView):

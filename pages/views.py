@@ -1,4 +1,6 @@
 # django
+from typing import Any
+from django.db.models.query import QuerySet
 from django.views.generic import TemplateView, ListView
 
 # models
@@ -28,6 +30,13 @@ class BlogPageView(ListView):
     template_name = "blog.html"
     model = PostModel
     context_object_name = "posts"
+
+    def get_queryset(self):
+        tag = self.request.GET.get("tag")
+        posts = PostModel.objects.all()
+        if tag:
+            posts = PostModel.objects.filter(tags__title=tag)
+        return posts
 
 
 class ContactsPageView(TemplateView):

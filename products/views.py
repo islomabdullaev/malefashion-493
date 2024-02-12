@@ -1,7 +1,7 @@
 from typing import Any
 from django.db import IntegrityError
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
 from products.models import ProductModel, WishlistModel
@@ -16,6 +16,7 @@ class WishlistPageView(ListView):
         return WishlistModel.objects.filter(user=self.request.user)
 
 
+@login_required
 def add_to_wishlist(request, product_pk):
     product = ProductModel.objects.get(pk=product_pk)
     current_path_url = request.META.get("HTTP_REFERER")

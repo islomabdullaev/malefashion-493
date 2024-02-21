@@ -7,6 +7,7 @@ from django.views.generic import TemplateView, ListView
 from pages.models import BannerModel
 from products.models import BrandModel, CategoryModel, ColorModel, ProductModel, SizeModel, TagModel
 from blogs.models import PostModel
+from django.db.models import Min, Max
 
 # Create your views here.
 class HomePageView(ListView):
@@ -20,17 +21,33 @@ class HomePageView(ListView):
 class ShopPageView(ListView):
     template_name = "shop.html"
     model = ProductModel
+    context_object_name = "products"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = ProductModel.objects.all()
         context['categories'] = CategoryModel.objects.all()
         context['brands'] = BrandModel.objects.all()
         context['sizes'] = SizeModel.objects.all()
         context['colors'] = ColorModel.objects.all()
         context['tags'] = TagModel.objects.all()
+        context['min_price'] = ProductModel.objects.aggregate(min_price=Min("price"))['min_price']
+        context['max_price'] = ProductModel.objects.aggregate(max_price=Max("price"))['max_price']
 
         return context
+    
+
+    def get_queryset(self):
+        products = ProductModel.objects.all().order_by('price')
+        sort = self.request.GET.get("sort")
+        q = self.request.GET.get("q")
+        category = self.request.GET.get('category')
+        if sort:
+           products = products.order_by(sort)
+        elif q:
+            products = products.filter(name__icontains=q)
+        elif category:
+            products = products.filter(category__title=category)
+        return products
 
 
 

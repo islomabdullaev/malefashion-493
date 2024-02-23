@@ -1,4 +1,8 @@
 {% extends 'layouts/base.html' %}
+{% block extra_css %}
+     <!--Plugin CSS file with desired skin-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+{% endblock %}
 {% block content %}
 {% load my_tags %}
 {% load static %}
@@ -75,9 +79,11 @@
                                     <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
-                                                <ul>
-                                                    <li><a href="#">${{ min_price }} - ${{ max_price }}</a></li>
-                                                </ul>
+                                                <form method="GET">
+                                                    <input min="{{ min_price }}" value="{{ request.GET.from }}" name="from" placeholder="from" type="number">
+                                                    <input max="{{ max_price }}" value="{{ request.GET.to }}" name="to" placeholder="to" type="number">
+                                                    <button type="submit">submit</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -106,9 +112,11 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__color">
                                                 {% for color in colors %}
-                                                    <label style="background-color: {{ color.code }};" for="{{ color.name }}">
-                                                        <input type="radio" id="{{ color.name }}">
-                                                    </label>
+                                                    <a href="{% url 'pages:shop' %}?color={{ color.name }}">
+                                                        <label style="background-color: {{ color.code }};" for="{{ color.name }}">
+                                                            <input type="radio" id="{{ color.name }}">
+                                                        </label>
+                                                    </a>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -182,8 +190,6 @@
                                                 {% endif %}
                                             </a>
                                         </li>
-                                        <li><a href="#"><img src="{% static 'img/icon/compare.png' %}" alt=""> <span>Compare</span></a>
-                                        </li>
                                         <li><a href="#"><img src="{% static 'img/icon/search.png' %}" alt=""></a></li>
                                     </ul>
                                 </div>
@@ -226,4 +232,52 @@
         </div>
     </section>
     <!-- Shop Section End -->
+{% endblock %}
+
+{% block extra_js %}
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+    <script>
+        $(".js-range-slider").ionRangeSlider({
+        onStart: function (data) {
+            // Called right after range slider instance initialised
+    
+            console.log(data.input);        // jQuery-link to input
+            console.log(data.slider);       // jQuery-link to range sliders container
+            console.log(data.min);          // MIN value
+            console.log(data.max);          // MAX values
+            console.log(data.from);         // FROM value
+            console.log(data.from_percent); // FROM value in percent
+            console.log(data.from_value);   // FROM index in values array (if used)
+            console.log(data.to);           // TO value
+            console.log(data.to_percent);   // TO value in percent
+            console.log(data.to_value);     // TO index in values array (if used)
+            console.log(data.min_pretty);   // MIN prettified (if used)
+            console.log(data.max_pretty);   // MAX prettified (if used)
+            console.log(data.from_pretty);  // FROM prettified (if used)
+            console.log(data.to_pretty);    // TO prettified (if used)
+        },
+    
+        onChange: function (data) {
+            // Called every time handle position is changed
+    
+            console.log(data.from);
+        },
+    
+        onFinish: function (data) {
+            // Called then action is done and mouse is released
+    
+            console.log(data.to);
+        },
+    
+        onUpdate: function (data) {
+            // Called then slider is changed using Update public method
+    
+            console.log(data.from_percent);
+        }
+    });
+    </script>
 {% endblock %}

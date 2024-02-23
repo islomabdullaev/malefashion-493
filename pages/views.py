@@ -41,12 +41,28 @@ class ShopPageView(ListView):
         sort = self.request.GET.get("sort")
         q = self.request.GET.get("q")
         category = self.request.GET.get('category')
+        brand = self.request.GET.get('brand')
+        size = self.request.GET.get('size')
+        color = self.request.GET.get('color')
+        tag = self.request.GET.get('tag')
+        from_price, to_price = self.request.GET.get("from"), self.request.GET.get("to")
         if sort:
            products = products.order_by(sort)
         elif q:
             products = products.filter(name__icontains=q)
         elif category:
             products = products.filter(category__title=category)
+        elif brand:
+            products = products.filter(brand__title=brand)
+        elif size:
+            products = products.filter(sizes__title=size)
+        elif color:
+            products = products.filter(colors__name=color)
+        elif tag:
+            products = products.filter(tags__title=tag)
+        elif from_price and to_price:
+            products = products.filter(price__range=(float(from_price), float(to_price)))
+
         return products
 
 

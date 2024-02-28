@@ -16,7 +16,13 @@ class HomePageView(ListView):
     
     def get_queryset(self):
         return BannerModel.objects.filter(is_active=True)
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = ProductModel.objects.all()
+        context["posts"] = PostModel.objects.all().order_by("-created_at")[:3]
+        
+        return context
 
 class ShopPageView(ListView):
     template_name = "shop.html"

@@ -203,7 +203,7 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6>{{ product.name }}</h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <a href="{% url 'products:add_to_cart' pk=product.pk %}" class="add-cart">+ Add To Cart</a>
                                     <div class="rating">
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
@@ -211,7 +211,12 @@
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>${{ product.price }}</h5>
+                                    <h5>
+                                        ${{ product.get_real_price }}
+                                        {% if product.discount %}
+                                            <span class="ml-2 text-danger"><s>{{ product.price }}</s></span>
+                                        {% endif %}
+                                    </h5>
                                     <div class="product__color__select">
                                         {% for color in product.colors.all %}
                                             <label class="active" style="background-color: {{ color.code }};" for="pc-4">

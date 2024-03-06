@@ -105,6 +105,12 @@ class ProductModel(models.Model):
         else:
             return False
     
+    def get_real_price(self):
+        real_price = self.price - (self.discount * (self.price / 100))
+        
+        return "{:.2f}".format(real_price)
+    
+    
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"

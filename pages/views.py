@@ -52,7 +52,13 @@ class ShopPageView(ListView):
         size = self.request.GET.get('size')
         color = self.request.GET.get('color')
         tag = self.request.GET.get('tag')
-        from_price, to_price = self.request.GET.get("from"), self.request.GET.get("to")
+        from_price = ProductModel.objects.aggregate(min_price=Min("price"))['min_price']
+        to_price = ProductModel.objects.aggregate(max_price=Max("price"))['max_price']
+        price_range = self.request.GET.get("my_range")
+        if price_range:
+            self.paginate_by = len(ProductModel.objects.all())
+            price_range = self.request.GET.get("my_range").split(";")
+            from_price, to_price = price_range[0], price_range[1]
         if sort:
            products = products.order_by(sort)
         elif q:
@@ -93,3 +99,15 @@ class BlogPageView(ListView):
 
 class ContactsPageView(TemplateView):
     template_name = "contact.html"
+
+
+class CartListView(ListView):
+    template_name = "shopping-cart.html"
+    model = ProductModel
+    context_object_name = "products"
+
+    def get_queryset(self):
+        cart = self.request.session.get("cart", [])
+        products = ProductModel.objects.filter(pk__in=cart)
+
+        return products

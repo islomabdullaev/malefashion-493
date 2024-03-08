@@ -32,13 +32,13 @@ def add_to_wishlist(request, product_pk):
 @login_required
 def add_to_cart(request, pk):
     cart = request.session.get("cart", [])
+    current_path_url = request.META.get("HTTP_REFERER")
     if pk in cart:
         cart.remove(pk)
     else:
         cart.append(pk)
     request.session['cart'] = cart
-    print(cart)
-    return redirect("pages:shop")
+    return redirect(current_path_url)
 
 class ShopDetailView(DetailView):
     template_name = "shop-details.html"

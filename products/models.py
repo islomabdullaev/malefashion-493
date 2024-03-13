@@ -142,3 +142,17 @@ class WishlistModel(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.username} | {self.product.name}"
+
+
+class CouponModel(models.Model):
+    code = models.CharField(max_length=5)
+    discount = models.IntegerField(default=5)
+    is_active = models.BooleanField(default=False)
+
+
+    class Meta:
+        verbose_name = "Coupon"
+        verbose_name_plural = "Coupons"
+
+    def __str__(self) -> str:
+        return f"{self.code}: {self.discount} - {self.is_active}"

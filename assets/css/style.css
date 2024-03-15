@@ -2420,15 +2420,10 @@ ol {
 	display: inline-block;
 }
 
-.cart__discount {
-	margin-bottom: 60px;
-}
-
 .cart__discount h6 {
 	color: #111111;
 	font-weight: 700;
 	text-transform: uppercase;
-	margin-bottom: 35px;
 }
 
 .cart__discount form {

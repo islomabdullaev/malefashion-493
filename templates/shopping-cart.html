@@ -106,7 +106,7 @@
                             {% get_cart_info request coupon as cart_info %}
                             <li>Total <span>$ {{ cart_info.1 }}</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a onclick="return confirm('Are you sure ?')"; href="{% url 'orders:proceed_order' %}?total_price={{ cart_info.1 }}&code={{ coupon.code }}" class="primary-btn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>

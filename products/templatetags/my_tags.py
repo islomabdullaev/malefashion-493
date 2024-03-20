@@ -14,7 +14,7 @@ def in_wishlist(user, product):
 @register.simple_tag
 def get_cart_info(request, coupon=None):
     cart = request.session.get("cart", [])
-    products = ProductModel.objects.filter(pk__in=cart)
+    products = ProductModel.get_from_cart(cart=cart)
     total_price = 0
     quantity = len(cart)
     for product in products:

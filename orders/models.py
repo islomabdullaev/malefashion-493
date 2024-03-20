@@ -23,7 +23,7 @@ class OrderModel(models.Model):
         verbose_name_plural = "Orders"
 
 
-class OrderItem(models.Model):
+class OrderItemModel(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductModel, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=1)

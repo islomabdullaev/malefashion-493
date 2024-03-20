@@ -111,7 +111,7 @@ class CartListView(ListView):
         code = self.request.GET.get("coupon")
         if code:
             try:
-                coupon = CouponModel.objects.get(code=code)
+                coupon = CouponModel.objects.filter(code=code, is_active=True)
                 context['coupon'] = coupon
             except CouponModel.DoesNotExist:
                 context['coupon'] = None

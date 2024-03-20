@@ -109,7 +109,11 @@ class ProductModel(models.Model):
         real_price = self.price - (self.discount * (self.price / 100))
         
         return "{:.2f}".format(real_price)
-    
+
+    @staticmethod
+    def get_from_cart(cart):
+        return ProductModel.objects.filter(pk__in=cart)
+
     
     class Meta:
         verbose_name = "Product"

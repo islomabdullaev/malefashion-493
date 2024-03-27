@@ -40,6 +40,20 @@ def add_to_cart(request, pk):
     request.session['cart'] = cart
     return redirect(current_path_url)
 
+@login_required
+def add_cart_data(request, pk, quantity):
+    cart = request.session.get("cart_data", [])
+    data = {
+        "pk": pk,
+        "quantity": quantity
+    }
+    if data in cart:
+        cart.remove(data)
+    else:
+        cart.append(data)
+    request.session['cart_data'] = cart
+    return redirect("pages:cart")
+
 class ShopDetailView(DetailView):
     template_name = "shop-details.html"
     model = ProductModel

@@ -29,6 +29,15 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="shopping__cart__table">
+                        <div class="order__message">
+                            {% if messages %}
+                                <ul style="list-style: none;" class="messages alert alert-success" role="alert">
+                                    {% for message in messages %}
+                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
                         <table>
                             <thead>
                                 <tr>
@@ -40,38 +49,46 @@
                             </thead>
                             <tbody>
                                 {% for product in products %}
-                                    <tr>
-                                        <td class="product__cart__item">
-                                            <div class="product__cart__item__pic">
-                                                <img width="100" src="{{ product.image.url }}" alt="">
-                                            </div>
-                                            <div class="product__cart__item__text">
-                                                <h6>{{ product.name }}</h6>
-                                                <h5>${{ product.get_real_price }}<span class="ml-3 text-danger"><s>${{ product.price }}</s></span></h5>
-                                            </div>
-                                        </td>
-                                        <td class="quantity__item">
-                                            <div class="quantity">
-                                                <div class="pro-qty-2">
-                                                    <input type="text" value="1">
+                                    <form method="GET">
+                                        {% csrf_token %}
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <div class="product__cart__item__pic">
+                                                    <img width="100" src="{{ product.image.url }}" alt="">
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td class="cart__price">$ 30.00</td>
-                                        <td class="cart__close"><a href="{% url 'products:add_to_cart' pk=product.pk %}"><i class="fa fa-close"></i></a></td>
-                                    </tr>
+                                                <div class="product__cart__item__text">
+                                                    <h6>{{ product.name }}</h6>
+                                                    <h5>${{ product.get_real_price }}<span class="ml-3 text-danger"><s>${{ product.price }}</s></span></h5>
+                                                </div>
+                                            </td>
+                                            <td class="quantity__item">
+                                                <div class="quantity">
+                                                        <div class="pro-qty-2">
+                                                            <input name="quantity" type="text" value="1" onclick="this.form.submit()">
+                                                        </div>
+                                                </div>
+                                            </td>
+                                            <td class="cart__price">$ 30.00</td>
+                                            <td class="cart__close"><a href="{% url 'products:add_to_cart' pk=product.pk %}"><i class="fa fa-close"></i></a></td>
+                                        </tr>
+                                    </form>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <div class="row">
-                    {% if products %}
+                            {% if products %}
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="continue__btn">
+                                        <a href="{% url 'pages:shop' %}">Continue Shopping</a>
+                                    </div>
+                                </div> 
+                            {% endif %}
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="continue__btn">
-                                    <a href="{% url 'pages:shop' %}">Continue Shopping</a>
+                                <div class="continue__btn update__btn">
+                                    <a href=""><i class="fa fa-spinner"></i> Update cart</a>
                                 </div>
-                            </div> 
-                    {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">

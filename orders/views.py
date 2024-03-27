@@ -1,5 +1,6 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib import messages
 from orders.models import OrderModel, OrderItemModel
 from products.models import CouponModel, ProductModel
 
@@ -26,4 +27,5 @@ def proceed_order(request):
     order.total_price =  float("{:.2f}".format(total_price))
     order.save()
     request.session['cart'] = []
-    return HttpResponse("Order Created !")
+    messages.add_message(request, messages.SUCCESS, "Order Has Been Placed !")
+    return redirect("pages:cart")
